@@ -20,6 +20,7 @@ jobs:
         with:
           name: Automated build - ${{ steps.date.outputs.date }}
           body: This is an automated build
+          tag_name: ${{ steps.date.outputs.date }}
           files: |
             Release.txt
             LICENSE
