@@ -25,7 +25,7 @@ echo "Downloading WinPython ${winpythonVersion}, which contains python version $
 Invoke-WebRequest -uri "https://github.com/winpython/winpython/releases/download/${winpythonVersion}/Winpython64-${pythonVersion}dot.exe" -Method "GET"  -Outfile "$scriptPath\winpyhon.exe"
 
 echo "Extracting WinPython..."
-& "$scriptPath\winpyhon.exe" -y
+start-process "$scriptPath\winpyhon.exe" -Argumentlist "-y" -NoNewWindow -Wait
 
 $wpFolderName = -join("WPy64-", $pythonVersion -Replace '\.')
 echo "The extracted folder should have this name: ${wpFolderName}"
