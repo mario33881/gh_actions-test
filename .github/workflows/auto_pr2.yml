@@ -1,4 +1,4 @@
-name: Auto PR
+name: Auto PR2
 
 on: 
   schedule:
