@@ -22,7 +22,10 @@ jobs:
       - name: Check latest WinPython version
         id: checkupdates
         continue-on-error: true
-        run: pip install requests && python check_updates.py && echo "::set-output name=exitcode::$?"
+        run: |
+          pip install requests
+          python check_updates.py
+          echo "::set-output name=exitcode::$?"
 
       - name: Update WinPython version
         if: ${{ steps.checkupdates.outputs.exitcode }} == 1
