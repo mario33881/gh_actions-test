@@ -2,10 +2,10 @@ name: Auto PR
 
 on: 
   schedule:
-    - cron:  '*/5 * * * *'
+    - cron:  '*/1 * * * *'
 
 jobs:
-  createPullRequest:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
