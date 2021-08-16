@@ -28,11 +28,11 @@ jobs:
           echo "::set-output name=exitcode::$?"
       
       - name: Update WinPython version
-        if: [ "${{ steps.date.outputs.date }}" = "1" ]
+        if: "${{ steps.checkupdates.outputs.exitcode }}" == "1"
         run: curl -sL https://api.github.com/repos/winpython/winpython/releases/latest | jq -r ".tag_name" > winpython_version.txt
 
       - name: Create PR no py updates
-        if: [ "${{ steps.checkupdates.outputs.exitcode }}" = "1" ]
+        if: "${{ steps.checkupdates.outputs.exitcode }}" = "1"
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update WinPython
@@ -51,7 +51,7 @@ jobs:
           draft: false
 
       - name: Create PR with py updates
-        if: [ "${{ steps.checkupdates.outputs.exitcode }}" = "2" ]
+        if: "${{ steps.checkupdates.outputs.exitcode }}" == "2"
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update WinPython
