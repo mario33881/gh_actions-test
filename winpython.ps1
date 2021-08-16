@@ -22,10 +22,10 @@ function Unzip {
 echo "Running the script in this folder: ${scriptPath}..."
 
 echo "Downloading WinPython ${winpythonVersion}, which contains python version ${pythonVersion}"
-Invoke-WebRequest -uri "https://github.com/winpython/winpython/releases/download/${winpythonVersion}/Winpython64-${pythonVersion}dot.exe" -Method "GET"  -Outfile "$scriptPath\winpyhon.exe"
+Invoke-WebRequest -uri "https://github.com/winpython/winpython/releases/download/${winpythonVersion}/Winpython64-${pythonVersion}dot.exe" -Method "GET"  -Outfile "$scriptPath\winpython.exe"
 
 echo "Extracting WinPython..."
-start-process "$scriptPath\winpyhon.exe" -Argumentlist "-y" -NoNewWindow -Wait
+start-process "$scriptPath\winpython.exe" -Argumentlist "-y" -NoNewWindow -Wait
 
 $wpFolderName = -join("WPy64-", $pythonVersion -Replace '\.')
 echo "The extracted folder should have this name: ${wpFolderName}"
@@ -82,3 +82,5 @@ $pythonCommand = "`"%~dp0${pythonFolderName}\python.exe`" panoptoSync.py %*"
 'cd "%OLDPATH%"' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 
 & "C:\Program Files\7-Zip\7z.exe" -sfx a PanoptoSync.exe "$scriptPath\PanoptoSync"
+
+ls
