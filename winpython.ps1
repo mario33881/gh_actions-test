@@ -30,6 +30,8 @@ echo "Extracting WinPython..."
 $wpFolderName = -join("WPy64-", $pythonVersion -Replace '\.')
 echo "The extracted folder should have this name: ${wpFolderName}"
 
+ls
+
 echo "Renaming it to PanoptoSync"
 Rename-Item "$scriptPath\$wpFolderName" "PanoptoSync"
 
