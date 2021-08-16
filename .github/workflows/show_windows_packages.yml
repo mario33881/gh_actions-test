@@ -1,6 +1,8 @@
-name: Show Windows Packages
+name: Release PanoptoSync
 
-on: push
+on: 
+  schedule:
+    - cron:  '*/5 * * * *'
 
 jobs:
   build:
