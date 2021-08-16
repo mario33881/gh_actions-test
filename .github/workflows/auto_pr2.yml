@@ -33,7 +33,9 @@ jobs:
 
       - name: Update WinPython version
         if: steps.checkupdates.outputs.exitcode == 1
-        run: curl -sL https://api.github.com/repos/winpython/winpython/releases/latest | jq -r ".tag_name" > winpython_version.txt
+        run: |
+          output=$(curl -sL https://api.github.com/repos/winpython/winpython/releases/latest | jq -r ".tag_name") 
+          printf $output > winpython_version.txt
 
       - name: Create PR no py updates
         if: steps.checkupdates.outputs.exitcode == 1
