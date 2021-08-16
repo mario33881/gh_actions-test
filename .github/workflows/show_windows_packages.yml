@@ -1,0 +1,10 @@
+name: Show Windows Packages
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - name: show software
+        run: wmic product get name,version
