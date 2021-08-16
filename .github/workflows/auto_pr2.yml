@@ -28,7 +28,8 @@ jobs:
           echo "::set-output name=exitcode::$?"
 
       - name: Show exit code
-        run: echo Exit code: ${{ steps.checkupdates.outputs.exitcode }}
+        run: |
+          echo "Exit code: ${{ steps.checkupdates.outputs.exitcode }}"
 
       - name: Update WinPython version
         if: steps.checkupdates.outputs.exitcode == 1
