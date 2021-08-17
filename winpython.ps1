@@ -4,6 +4,7 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $winpythonVersion = [IO.File]::ReadAllText("${scriptPath}\winpython_version.txt")
 $pythonVersion = [IO.File]::ReadAllText("${scriptPath}\python_version.txt")
 $panoptosyncUrl = "https://gitlab.com/Microeinstein/panopto-sync/-/archive/master/panopto-sync-master.zip"
+$psupdaterUrl = "https://raw.githubusercontent.com/mario33881/panoptosync_updater/main/ps_updater/ps_updater.py"
 
 
 function Unzip {
@@ -47,6 +48,9 @@ Remove-Item "$scriptPath\PanoptoSync\panoptosync.zip"
 echo "Renaming the extracted folder"
 Rename-Item "$scriptPath\PanoptoSync\panopto-sync-master" "panopto-sync"
 
+echo "Download PS Updater"
+Invoke-WebRequest -uri "$psupdaterUrl" -Method "GET"  -Outfile "$scriptPath\PanoptoSync\panopto-sync\ps_updater.py"
+
 echo "Installing pip dependencies"
 & "$scriptPath\PanoptoSync\scripts\python.bat" -m pip install -r "$scriptPath\PanoptoSync\panopto-sync\requirements.txt"
 
@@ -72,11 +76,18 @@ echo "Writing the execute script batch file"
 'REM Go inside the panopto-sync folder' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 'cd "%~dp0panopto-sync"' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 
-'REM Execute panoptoSync using python' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 
 $pythonFolderName = -join("python-", $pythonVersion -Replace '0', "amd64")  
-$pythonCommand = "`"%~dp0${pythonFolderName}\python.exe`" panoptoSync.py %*"
-"$pythonCommand" | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
+$pythonCommand = "`"%~dp0${pythonFolderName}\python.exe`""
+
+$panoptosyncCommand = "$pythonCommand panoptoSync.py %*"
+$psupdaterCommand = "$pythonCommand ps_updater.py.py"
+
+'REM Execute panoptosync_updater with python' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
+"$psupdaterCommand" | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
+
+'REM Execute panoptoSync using python' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
+"$panoptosyncCommand" | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 
 "REM Go back to the User's original directory" | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 'cd "%OLDPATH%"' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
