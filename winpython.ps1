@@ -51,6 +51,9 @@ Rename-Item "$scriptPath\PanoptoSync\panopto-sync-master" "panopto-sync"
 echo "Download PS Updater"
 Invoke-WebRequest -uri "$psupdaterUrl" -Method "GET"  -Outfile "$scriptPath\PanoptoSync\panopto-sync\ps_updater.py"
 
+echo "Execute PS Updater to create the latest commit date file"
+& "$scriptPath\PanoptoSync\scripts\python.bat" "$scriptPath\PanoptoSync\panopto-sync\ps_updater.py"
+
 echo "Installing pip dependencies"
 & "$scriptPath\PanoptoSync\scripts\python.bat" -m pip install -r "$scriptPath\PanoptoSync\panopto-sync\requirements.txt"
 
@@ -81,7 +84,7 @@ $pythonFolderName = -join("python-", $pythonVersion -Replace '0', "amd64")
 $pythonCommand = "`"%~dp0${pythonFolderName}\python.exe`""
 
 $panoptosyncCommand = "$pythonCommand panoptoSync.py %*"
-$psupdaterCommand = "$pythonCommand ps_updater.py.py"
+$psupdaterCommand = "$pythonCommand ps_updater.py"
 
 'REM Execute panoptosync_updater with python' | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
 "$psupdaterCommand" | Out-File -FilePath "$scriptPath\PanoptoSync\panoptoSync.bat" -Encoding ASCII -Append
