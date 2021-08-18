@@ -26,9 +26,14 @@ jobs:
           python check_wp_updates.py
           echo "::set-output name=exitcode::$?"
 
-      - name: Show Winpython check exit code
+      - name: Show and verify Winpython check exit code
         run: |
-          echo "Exit code: ${{ steps.checkupdates.outputs.exitcode }}"
+          exitcode=${{ steps.checkupdates.outputs.exitcode }}
+          echo "Exit code: $exitcode"
+          if [ "$exitcode" != "0" ] && [ "$exitcode" != "1" ] && [ "$exitcode" != "2" ]
+          then
+            false
+          fi
 
 #
 # WINPYTHON UPDATE AVAILABLE - NO PYTHON UPDATES
