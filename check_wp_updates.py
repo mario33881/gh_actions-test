@@ -114,7 +114,7 @@ if __name__ == "__main__":
             break
     
     # exit with different exit codes to tell GH actions what to do next
-    if json["tag_name"] == wp_version:
+    if json_data["tag_name"] == wp_version:
         # there are no winpython updates
         print("Currently using the latest WinPython version: exiting with code 0")
     else:
